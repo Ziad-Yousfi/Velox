@@ -1,0 +1,4 @@
+PyQt6==6.7.1
+psutil==6.1.1
+pyinstaller==6.11.1
+pywin32==311; sys_platform == "win32"
