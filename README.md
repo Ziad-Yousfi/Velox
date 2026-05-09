@@ -1,4 +1,4 @@
-# 🎮 Vaultex Gaming Launcher
+# 🎮 Velox Gaming Launcher
 
 A lightweight, RAM-efficient gaming launcher for Windows with automatic playtime tracking and detailed statistics.
 
@@ -66,7 +66,7 @@ python main.py
 
 ```bash
 # Install PyInstaller (included in requirements.txt)
-pyinstaller --onefile --windowed --name "VaultexLauncher" ^
+pyinstaller --onefile --windowed --name "VeloxLauncher" ^
   --add-data "assets;assets" ^
   --icon assets/icons/app.ico ^
   main.py
