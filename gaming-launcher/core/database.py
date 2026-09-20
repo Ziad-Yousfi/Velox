@@ -213,12 +213,22 @@ class Database:
         self._set_cached("all_games", results)
         return results
     
-    def update_game_cover(self, game_id: int, cover_path: str):
+    def update_game_cover(self, game_id: int, cover_path: Optional[str]):
         """Update the cover image path for a game."""
         cursor = self.conn.cursor()
         cursor.execute("""
             UPDATE games SET cover_image_path = ? WHERE id = ?
         """, (cover_path, game_id))
+        self.conn.commit()
+        self._invalidate_cache(f"games:{game_id}")
+        self._invalidate_cache("all_games")
+
+    def update_game(self, game_id: int, name: str, cover_image_path: Optional[str] = None):
+        """Update name and cover image path for a game."""
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            UPDATE games SET name = ?, cover_image_path = ? WHERE id = ?
+        """, (name, cover_image_path, game_id))
         self.conn.commit()
         self._invalidate_cache(f"games:{game_id}")
         self._invalidate_cache("all_games")
@@ -410,6 +420,108 @@ class Database:
         self._set_cached(cache_key, results)
         return results
     
+    def get_combined_stats(self) -> Dict[str, Any]:
+        """Get aggregated statistics across all games."""
+        cache_key = "stats:combined"
+        cached = self._get_cached(cache_key)
+        if cached:
+            return cached
+
+        cursor = self.conn.cursor()
+
+        # Total games
+        cursor.execute("SELECT COUNT(*) FROM games")
+        total_games = cursor.fetchone()[0] or 0
+
+        # Total playtime and sessions
+        cursor.execute("""
+            SELECT COALESCE(SUM(duration_seconds), 0), COUNT(*)
+            FROM sessions
+            WHERE end_time IS NOT NULL
+        """)
+        row = cursor.fetchone()
+        total_playtime = row[0] or 0
+        total_sessions = row[1] or 0
+
+        avg_session = total_playtime // total_sessions if total_sessions > 0 else 0
+
+        # Top game
+        cursor.execute("""
+            SELECT g.id, g.name, COALESCE(SUM(s.duration_seconds), 0) as total
+            FROM games g
+            JOIN sessions s ON g.id = s.game_id
+            WHERE s.end_time IS NOT NULL
+            GROUP BY g.id
+            ORDER BY total DESC
+            LIMIT 1
+        """)
+        top_row = cursor.fetchone()
+        top_game = None
+        if top_row and top_row[2] > 0:
+            top_game = {
+                "id": top_row[0],
+                "name": top_row[1],
+                "seconds": top_row[2],
+                "percentage": round((top_row[2] / total_playtime * 100), 1) if total_playtime > 0 else 0,
+            }
+
+        # Last played
+        cursor.execute("""
+            SELECT s.end_time, g.name
+            FROM sessions s
+            JOIN games g ON s.game_id = g.id
+            WHERE s.end_time IS NOT NULL
+            ORDER BY s.end_time DESC
+            LIMIT 1
+        """)
+        last_row = cursor.fetchone()
+        last_played = {
+            "time": last_row[0],
+            "game_name": last_row[1],
+        } if last_row else None
+
+        result = {
+            "total_games": total_games,
+            "total_playtime_seconds": total_playtime,
+            "total_sessions": total_sessions,
+            "avg_session_seconds": avg_session,
+            "top_game": top_game,
+            "last_played": last_played,
+        }
+
+        self._set_cached(cache_key, result)
+        return result
+
+    def get_combined_daily_playtime(self, days: int = 30) -> Dict[str, int]:
+        """Get daily combined playtime across all games for the last N days."""
+        cache_key = f"daily_playtime:all:{days}"
+        cached = self._get_cached(cache_key)
+        if cached:
+            return cached
+
+        cursor = self.conn.cursor()
+        from datetime import datetime, timedelta
+
+        end_date = datetime.now()
+        start_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days)
+
+        cursor.execute("""
+            SELECT DATE(start_time) as date, SUM(duration_seconds) as total
+            FROM sessions
+            WHERE end_time IS NOT NULL
+              AND DATE(start_time) >= DATE(?)
+              AND DATE(start_time) <= DATE(?)
+            GROUP BY DATE(start_time)
+            ORDER BY date
+        """, (start_date.isoformat(), end_date.isoformat()))
+
+        results = {}
+        for row in cursor.fetchall():
+            results[row[0]] = row[1] or 0
+
+        self._set_cached(cache_key, results)
+        return results
+
     def close(self):
         """Close the database connection."""
         if self._conn:

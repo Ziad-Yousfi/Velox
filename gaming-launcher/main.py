@@ -45,12 +45,46 @@ Expected Memory Usage:
 
 import sys
 import os
+from pathlib import Path
 
 # Add the gaming-launcher directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# ── Windows Taskbar Icon Integration ──────────────────────────────────────────
+if sys.platform == "win32":
+    import ctypes
+    try:
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("velox.gaming.launcher.1.0")
+    except Exception:
+        pass
+
+# ── Load custom fonts before creating QApplication ────────────────────────────
+from PyQt6.QtWidgets import QApplication
+from PyQt6.QtGui import QFontDatabase, QFont, QIcon
+from PyQt6.QtCore import Qt
+
+QApplication.setHighDpiScaleFactorRoundingPolicy(
+    Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+)
+_app = QApplication.instance() or QApplication(sys.argv)
+_app.setApplicationName("Velox Gaming Launcher")
+
+# Set application icon
+_ico_path = Path(__file__).parent / "icon" / "velox.ico"
+if _ico_path.exists():
+    _app.setWindowIcon(QIcon(str(_ico_path)))
+
+# Register Rajdhani font family
+_fonts_dir = Path(__file__).parent / "assets" / "fonts"
+for _ttf in _fonts_dir.glob("Rajdhani*.ttf"):
+    QFontDatabase.addApplicationFont(str(_ttf))
+
+# Set Rajdhani as the application-wide default font
+_app.setFont(QFont("Rajdhani", 10))
 
 from ui.main_window import main
 
 
 if __name__ == "__main__":
-    main()
+    main(_app)
+
