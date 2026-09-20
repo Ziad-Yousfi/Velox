@@ -12,6 +12,15 @@
     <img src="https://img.shields.io/badge/Author-Ziad--Yousfi-7B2FFF?style=for-the-badge" alt="Auteur" />
     <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
   </p>
+
+  <p>
+    <a href="https://github.com/Ziad-Yousfi/Velox/releases/download/v1.0.0/Velox.exe">
+      <img src="https://img.shields.io/badge/⚡_Télécharger_Velox.exe-v1.0.0-00D4FF?style=for-the-badge&logo=windows&logoColor=white" alt="Télécharger Velox.exe" />
+    </a>
+    <a href="https://github.com/Ziad-Yousfi/Velox/releases">
+      <img src="https://img.shields.io/badge/📦_GitHub-Releases-7B2FFF?style=for-the-badge&logo=github&logoColor=white" alt="Releases" />
+    </a>
+  </p>
 </div>
 
 ---
@@ -120,28 +129,37 @@ Velox/
 
 ## 🚀 Installation & Démarrage
 
-### Prérequis
+### Option A : Téléchargement Direct (Recommandé - Aucun Python requis)
+1. Rendez-vous sur la page des [Releases Velox v1.0.0](https://github.com/Ziad-Yousfi/Velox/releases/tag/v1.0.0).
+2. Téléchargez **[Velox.exe](https://github.com/Ziad-Yousfi/Velox/releases/download/v1.0.0/Velox.exe)**.
+3. Lancez directement l'application !
+
+---
+
+### Option B : Exécution depuis les Sources Python
+
+#### Prérequis
 * **Système d'exploitation** : Windows 10 ou Windows 11 (64-bit).
 * **Python** : Version 3.10 ou supérieure installée ([python.org](https://www.python.org/)).
 
-### Étape 1 : Cloner le Répertoire
+#### Étape 1 : Cloner le Répertoire
 ```bash
 git clone https://github.com/Ziad-Yousfi/Velox.git
 cd Velox/gaming-launcher
 ```
 
-### Étape 2 : Créer un Environnement Virtuel (Recommandé)
+#### Étape 2 : Créer un Environnement Virtuel (Recommandé)
 ```bash
 python -m venv venv
 .\venv\Scripts\activate
 ```
 
-### Étape 3 : Installer les Dépendances
+#### Étape 3 : Installer les Dépendances
 ```bash
 pip install -r requirements.txt
 ```
 
-### Étape 4 : Lancer Velox
+#### Étape 4 : Lancer Velox
 ```bash
 python main.py
 ```
@@ -150,20 +168,14 @@ python main.py
 
 ## 🏗️ Compilation en Exécutable Autonome (`.exe`)
 
-Vous pouvez packager Velox sous forme d'application autonome sans dépendance Python requise :
+Le projet inclut un fichier de configuration PyInstaller optimisé ([Velox.spec](file:///e:/Documents/Developpement/Actif/Velox/gaming-launcher/Velox.spec)) :
 
 ```bash
-# 1. Installer PyInstaller
-pip install pyinstaller
+# 1. Se placer dans le dossier gaming-launcher
+cd gaming-launcher
 
-# 2. Compiler l'exécutable avec l'icône officielle Velox
-pyinstaller --onefile --windowed --name "Velox" \
-    --icon="icon/velox.ico" \
-    --hidden-import=PyQt6.sip \
-    --hidden-import=sqlite3 \
-    --add-data "assets;assets" \
-    --add-data "icon;icon" \
-    main.py
+# 2. Compiler avec le fichier de spec
+pyinstaller Velox.spec --clean --noconfirm
 ```
 
 L'exécutable généré se trouvera dans le dossier `dist/Velox.exe`.
