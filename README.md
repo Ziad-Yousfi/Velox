@@ -1,7 +1,15 @@
 <div align="center">
+  <p align="center">
+    <a href="README.md"><img src="https://img.shields.io/badge/Language-English-00D4FF?style=for-the-badge&logo=google-translate&logoColor=white" alt="English" /></a>
+    <a href="README.fr.md"><img src="https://img.shields.io/badge/Langue-Français-lightgrey?style=for-the-badge&logo=google-translate&logoColor=white" alt="Français" /></a>
+  </p>
+  <p align="center">
+    <b>🇬🇧 English Version</b> &nbsp;•&nbsp; <b><a href="README.fr.md">🇫🇷 Version Française</a></b>
+  </p>
+
   <img src="gaming-launcher/icon/velox_icon.jpg" alt="Velox Gaming Launcher Logo" width="190" style="border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);" />
   <h1>⚡ VELOX GAMING LAUNCHER</h1>
-  <p><strong>Lanceur de jeux ultra-léger, performant et élégant pour Windows avec suivi automatique du temps de jeu et statistiques avancées.</strong></p>
+  <p><strong>Ultra-lightweight, high-performance, and elegant game launcher for Windows with automatic playtime tracking and advanced analytics.</strong></p>
 
   <p>
     <img src="https://img.shields.io/badge/Version-1.0.0-00D4FF?style=for-the-badge" alt="Version" />
@@ -9,13 +17,13 @@
     <img src="https://img.shields.io/badge/GUI-PyQt6-41CD52?style=for-the-badge&logo=qt&logoColor=white" alt="PyQt6" />
     <img src="https://img.shields.io/badge/Database-SQLite_WAL-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
     <img src="https://img.shields.io/badge/RAM-~45MB_Idle-yellow?style=for-the-badge" alt="RAM" />
-    <img src="https://img.shields.io/badge/Author-Ziad--Yousfi-7B2FFF?style=for-the-badge" alt="Auteur" />
+    <img src="https://img.shields.io/badge/Author-Ziad--Yousfi-7B2FFF?style=for-the-badge" alt="Author" />
     <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
   </p>
 
   <p>
     <a href="https://github.com/Ziad-Yousfi/Velox/releases/download/v1.0.0/Velox.exe">
-      <img src="https://img.shields.io/badge/⚡_Télécharger_Velox.exe-v1.0.0-00D4FF?style=for-the-badge&logo=windows&logoColor=white" alt="Télécharger Velox.exe" />
+      <img src="https://img.shields.io/badge/⚡_Download_Velox.exe-v1.0.0-00D4FF?style=for-the-badge&logo=windows&logoColor=white" alt="Download Velox.exe" />
     </a>
     <a href="https://github.com/Ziad-Yousfi/Velox/releases">
       <img src="https://img.shields.io/badge/📦_GitHub-Releases-7B2FFF?style=for-the-badge&logo=github&logoColor=white" alt="Releases" />
@@ -25,185 +33,188 @@
 
 ---
 
-## 📖 À Propos de Velox
+## 📖 About Velox
 
-**Velox** (*« véloce, rapide, agile »* en latin) est un lanceur de jeux vidéo indépendant conçu pour offrir une alternative réactive, moderne et économe en ressources face aux clients de jeux lourds et énergivores.
+**Velox** (*"swift, rapid, nimble"* in Latin) is an independent video game launcher engineered to provide a responsive, modern, and resource-efficient alternative to bloated, power-hungry game clients.
 
-Inspiré par **Mercure (Mercurius)** — dieu romain de la vitesse coiffé de son casque ailé et revisité sous un prisme cyberpunk —, Velox fusionne l'art néo-classique et la vélocité technologique.
-
----
-
-## ✨ Fonctionnalités Clés
-
-### 🎮 Gestion de la Bibliothèque
-* **Grille responsive et dynamique** : Présentation claire de vos jeux avec pochettes personnalisées, titres éditables et raccourcis d'action rapide.
-* **Ajout flexible de jeux** :
-  * Détection et scan automatique d'exécutables dans un dossier cible.
-  * Ajout manuel avec sélection de l'exécutable (`.exe`) et association d'une jaquette dédiée.
-* **Gestion complète (CRUD)** : Modification du nom, mise à jour de l'image de couverture ou suppression d'un jeu via le bouton paramètres de chaque carte.
-
-### ⏱️ Suivi Automatique du Temps de Jeu
-* **Détection automatique en arrière-plan** : Dès que vous lancez un jeu depuis Velox, le processus est tracé sans aucune latence via son PID.
-* **Enregistrement de sessions précises** : Horodatage précis (date, heure de début, heure de fin, durée en secondes) consigné dans la base SQLite locale.
-* **Zéro blocage d'interface** : Le moteur de surveillance tourne dans un thread dédié ultra-léger avec un intervalle de polling intelligent de 5 secondes.
-
-### 📊 Analyses & Statistiques Détaillées
-Velox intègre deux niveaux de statistiques complètes :
-
-#### 1. Statistiques Individuelles par Jeu
-* **Graphique 30 jours** : Barres interactives avec dégradé visuel illustrant le temps joué quotidiennement.
-* **Calendrier Heatmap** :
-  * Visualisation mensuelle par niveau d'intensité (5 nuances de couleurs).
-  * Affichage direct et lisible du temps passé (ex: `1h 45m` ou `35m`) au cœur de chaque case journalière.
-  * Navigation fluide mois par mois et détail précis des sessions.
-
-#### 2. Statistiques Globales de la Bibliothèque
-* **Repère Orthogonal à 2 Axes (X = Jeux / Y = Heures)** : Comparateur graphique direct du temps cumulé entre tous vos jeux avec échelle adaptative et infobulles au survol.
-* **Vue Combinée & KPIs Clés** :
-  * ⏱️ *Temps cumulé total* de toute la bibliothèque.
-  * 🎮 *Nombre total de jeux* enregistrés.
-  * 🎯 *Sessions jouées*.
-  * ⏳ *Durée moyenne* par partie.
-  * 🏆 *Jeu favori* et son pourcentage d'occupation.
-  * 📈 *Activité globale quotidienne sur 30 jours*.
-  * 📊 *Tableau de répartition complète* par jeu avec jauges de progression.
-
-### 🎨 Moteur Multi-Thèmes Dynamique
-* Sélecteur de thèmes accessible dans les paramètres :
-  * **Velox Cyberpunk** (Sombre électrique néon cyan & violet).
-  * **Solarized Light** (Palette claire haut contraste `#FDF6E3`, lisibilité maximale, survol jaune foncé doré `#D4A017` sur les cartes).
-  * **Obsidian Dark** & variantes.
-* Respect immédiat du thème actif sur l'ensemble des fenêtres, dialogues, cartes et graphiques.
-
-### 🛡️ Gestion Intelligente du Systray & Fermeture Sécurisée
-Velox distingue la mise en retrait et l'extinction complète :
-* **Bouton Fermer (✕) ou Alt+F4** : Ferme la fenêtre graphique (`hide()`). L'application reste active dans la barre des tâches / zone de notification Windows (systray) avec son icône transparente de Mercure. Le tracking du temps de jeu continue sans interruption. Un simple clic sur l'icône restaure instantanément la fenêtre.
-* **Bouton Éteindre (⏻)** : Situé dans la barre de titre et dans le menu contextuel du systray, il assure un arrêt propre et sécurisé de tous les threads, de la base de données et du processus en tâche de fond.
+Inspired by **Mercury (Mercurius)** — the Roman god of speed crowned with his winged helmet and reimagined through a cyberpunk aesthetic —, Velox fuses neo-classical art with high-speed performance.
 
 ---
 
-## 🛠️ Architecture & Choix Technologiques
+## ✨ Key Features
 
-| Composant | Technologie | Rationale & Bénéfices |
+### 🎮 Game Library Management
+* **Responsive & Adaptive Grid**: Clean 4-column presentation with centered alignment, custom cover art, editable titles, and quick-action shortcuts.
+* **Flexible Game Addition**:
+  * Automatic directory scanning for game executables (`.exe`).
+  * Manual addition with custom executable file selection and dedicated cover art association.
+* **Full CRUD Management**: Edit game names, update covers, or delete games directly through each card's settings button.
+
+### ⏱️ Automatic Playtime Tracking
+* **Zero-Latency Background Tracking**: When you launch a game from Velox, its process is automatically traced via its Windows PID.
+* **Accurate Session Logging**: Precise timestamps (date, start time, end time, duration in seconds) stored in the local SQLite database.
+* **Non-Blocking UI**: The monitoring engine operates inside a lightweight dedicated worker thread with an intelligent 5-second polling interval (<0.1% CPU impact).
+
+### 📊 In-Depth Analytics & Statistics
+Velox includes two comprehensive tiers of playtime analytics:
+
+#### 1. Individual Game Statistics
+* **30-Day Playtime Bar Chart**: Interactive daily bars with visual color gradients illustrating recent gaming habits.
+* **Calendar Heatmap**:
+  * Monthly activity grid with 5 levels of color intensity.
+  * Direct, legible playtime labels (e.g., `1h 45m` or `35m`) displayed inside every active daily cell.
+  * Seamless month-by-month navigation and detailed session records.
+
+#### 2. Global Library Analytics
+* **2-Axis Orthogonal Chart (X = Games / Y = Hours)**: Direct graphical comparison of cumulative playtime across all your games with adaptive scaling and hover tooltips.
+* **Combined Overview & Key KPIs**:
+  * ⏱️ *Total playtime* accumulated across all games.
+  * 🎮 *Total game count* in your library.
+  * 🎯 *Total sessions* played.
+  * ⏳ *Average session duration*.
+  * 🏆 *Most played game* and its library share percentage.
+  * 📈 *30-day global activity curve*.
+  * 📊 *Complete distribution table* per game with progress gauges.
+
+### 🎨 Dynamic Multi-Theme Engine
+* Switch themes instantly in the Settings dialog:
+  * **Velox Cyberpunk** (Deep electric dark with neon cyan and purple accents).
+  * **Solarized Light** (High-contrast `#FDF6E3` light palette with dark golden hover `#D4A017`).
+  * **Obsidian Dark** & variants.
+* Instant theme application across all windows, dialogs, cards, and charts.
+
+### 🛡️ Smart System Tray & Safe Shutdown
+Velox cleanly distinguishes between minimizing and terminating:
+* **Close Button (✕) or Alt+F4**: Minimizes the window to the Windows System Tray (`hide()`). The transparent Mercury icon stays active in the notification area, maintaining continuous background game tracking. Clicking the tray icon instantly restores the window.
+* **Power Button (⏻)**: Located in the title bar and tray context menu, ensuring a clean and safe termination of all threads, background watchers, and the database connection.
+
+---
+
+## 🛠️ Architecture & Tech Stack
+
+| Component | Technology | Rationale & Benefits |
 |-----------|------------|-----------------------|
-| **Framework Graphique** | **PyQt6 (Qt 6 C++)** | Rendu natif GPU, composants fluides, consommation RAM ~10x inférieure à Electron (~45 Mo vs ~250 Mo). |
-| **Base de Données** | **SQLite 3 (Mode WAL)** | Sans configuration serveur, requêtes en cache mémoire, concurrence de lecture/écriture instantanée. |
-| **Moteur de Graphiques** | **Custom QPainter 2D** | Zéro dépendance lourde externe (pas de matplotlib lourd), graphiques vectoriels anti-aliasés ultra-rapides. |
-| **Tracking Processus** | **Threading + Win32 PID** | Surveillance non-bloquante avec cycle de veille 5s : impact CPU inférieur à 0.1%. |
-| **Identité Windows** | **Win32 AppUserModelID** | Intégration native dans la barre des tâches Windows 10/11 sans icône Python générique. |
+| **GUI Framework** | **PyQt6 (Qt 6 C++)** | Hardware-accelerated native rendering, fluid widgets, ~10x lower RAM footprint than Electron (~45 MB vs ~250 MB). |
+| **Database** | **SQLite 3 (WAL Mode)** | Zero server setup, query caching, instant concurrent read/write transactions. |
+| **Chart Engine** | **Custom QPainter 2D** | Zero heavy third-party plotting dependencies (no bloated matplotlib), ultra-fast anti-aliased vector rendering. |
+| **Process Tracking** | **Threading + Win32 PID** | Non-blocking background worker thread with 5s sleep cycles: CPU overhead under 0.1%. |
+| **Windows Identity** | **Win32 AppUserModelID** | Native Windows 10/11 taskbar integration without generic Python icons. |
 
 ---
 
-## 📁 Structure du Projet
+## 📁 Project Structure
 
 ```
 Velox/
-├── README.md                     # Documentation officielle du projet
+├── README.md                     # Official documentation in English (default)
+├── README.fr.md                  # Official documentation in French
+├── Velox.exe                     # Standalone compiled executable
 ├── .gitignore
 └── gaming-launcher/
-    ├── main.py                   # Point d'entrée, initialisation Qt, polices & icône
-    ├── requirements.txt          # Dépendances Python (PyQt6, Pillow)
-    ├── icon/                     # Identité visuelle officielle
-    │   ├── velox_icon.jpg        # Illustration originale haute définition
-    │   ├── velox_icon_transparent.png# Emblème détouré (fond transparent pur)
-    │   ├── velox.ico             # Icône Windows multi-résolutions (16px à 256px)
-    │   └── velox_transparent.ico # Icône transparente pour le systray
+    ├── Velox.spec                # PyInstaller build configuration
+    ├── main.py                   # Application entry point, Qt init, fonts & icons
+    ├── requirements.txt          # Python dependencies (PyQt6, Pillow)
+    ├── icon/                     # Official visual identity
+    │   ├── velox_icon.jpg        # High-resolution original artwork
+    │   ├── velox_icon_transparent.png# Cutout emblem (pure transparent background)
+    │   ├── velox.ico             # Multi-resolution Windows icon (16px to 256px)
+    │   └── velox_transparent.ico # Transparent icon for system tray
     ├── assets/
-    │   ├── fonts/                # Polices embarquées (Rajdhani)
-    │   └── icons/                # Déclinaisons d'icônes
-    ├── core/                     # Logique métier & Données
-    │   ├── database.py           # Abstraction SQLite avec pool & cache 5s
-    │   ├── models.py             # Modèles de données (Game, Session)
-    │   ├── theme.py              # Système de thèmes dynamiques & palettes
-    │   └── tracker.py            # Surveillance et suivi de processus
-    └── ui/                       # Interface Utilisateur PyQt6
-        ├── main_window.py        # Fenêtre principale frameless & barre de titre
-        ├── game_card.py          # Carte de jeu individuelle (hover, stats, play)
-        ├── stats_window.py       # Statistiques d'un jeu (graphique 30j + heatmap)
-        ├── global_stats_window.py# Statistiques globales (repère orthogonal + combinées)
-        ├── add_game_dialog.py    # Dialogue d'ajout / détection de jeux
-        └── edit_game_dialog.py   # Dialogue de modification et suppression
+    │   ├── fonts/                # Embedded fonts (Rajdhani)
+    │   └── icons/                # Icon variants
+    ├── core/                     # Business Logic & Data
+    │   ├── database.py           # SQLite abstraction with query cache & WAL mode
+    │   ├── models.py             # Data models (Game, Session)
+    │   ├── theme.py              # Dynamic theme engine & color palettes
+    │   └── tracker.py            # Process tracking & playtime monitor
+    └── ui/                       # PyQt6 User Interface
+        ├── main_window.py        # Frameless main window & custom title bar
+        ├── game_card.py          # Interactive game card (hover, stats, play)
+        ├── stats_window.py       # Per-game statistics (30d chart + heatmap)
+        ├── global_stats_window.py# Global library analytics (orthogonal chart & KPIs)
+        ├── add_game_dialog.py    # Game addition & folder scanner dialog
+        └── edit_game_dialog.py   # Game editing and deletion dialog
 ```
 
 ---
 
-## 🚀 Installation & Démarrage
+## 🚀 Installation & Getting Started
 
-### Option A : Téléchargement Direct (Recommandé - Aucun Python requis)
-1. Rendez-vous sur la page des [Releases Velox v1.0.0](https://github.com/Ziad-Yousfi/Velox/releases/tag/v1.0.0).
-2. Téléchargez **[Velox.exe](https://github.com/Ziad-Yousfi/Velox/releases/download/v1.0.0/Velox.exe)**.
-3. Lancez directement l'application !
+### Option A: Direct Executable Download (Recommended - No Python Required)
+1. Navigate to the [Velox v1.0.0 Releases page](https://github.com/Ziad-Yousfi/Velox/releases/tag/v1.0.0).
+2. Download **[Velox.exe](https://github.com/Ziad-Yousfi/Velox/releases/download/v1.0.0/Velox.exe)**.
+3. Launch the application directly!
 
 ---
 
-### Option B : Exécution depuis les Sources Python
+### Option B: Running from Python Source
 
-#### Prérequis
-* **Système d'exploitation** : Windows 10 ou Windows 11 (64-bit).
-* **Python** : Version 3.10 ou supérieure installée ([python.org](https://www.python.org/)).
+#### Prerequisites
+* **Operating System**: Windows 10 or Windows 11 (64-bit).
+* **Python**: Version 3.10 or higher ([python.org](https://www.python.org/)).
 
-#### Étape 1 : Cloner le Répertoire
+#### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/Ziad-Yousfi/Velox.git
 cd Velox/gaming-launcher
 ```
 
-#### Étape 2 : Créer un Environnement Virtuel (Recommandé)
+#### Step 2: Create a Virtual Environment (Recommended)
 ```bash
 python -m venv venv
 .\venv\Scripts\activate
 ```
 
-#### Étape 3 : Installer les Dépendances
+#### Step 3: Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-#### Étape 4 : Lancer Velox
+#### Step 4: Run Velox
 ```bash
 python main.py
 ```
 
 ---
 
-## 🏗️ Compilation en Exécutable Autonome (`.exe`)
+## 🏗️ Building Standalone Executable (`.exe`)
 
-Le projet inclut un fichier de configuration PyInstaller optimisé ([Velox.spec](file:///e:/Documents/Developpement/Actif/Velox/gaming-launcher/Velox.spec)) :
+The repository includes an optimized PyInstaller specification file ([Velox.spec](file:///e:/Documents/Developpement/Actif/Velox/gaming-launcher/Velox.spec)):
 
 ```bash
-# 1. Se placer dans le dossier gaming-launcher
+# 1. Navigate to the gaming-launcher directory
 cd gaming-launcher
 
-# 2. Compiler avec le fichier de spec
+# 2. Compile using the spec file
 pyinstaller Velox.spec --clean --noconfirm
 ```
 
-L'exécutable généré se trouvera dans le dossier `dist/Velox.exe`.
+The resulting standalone executable will be located in `dist/Velox.exe`.
 
 ---
 
-## 🎮 Guide d'Utilisation Rapide
+## 🎮 Quick User Guide
 
-| Action | Comment faire ? |
-|--------|-----------------|
-| **Ajouter un jeu** | Cliquez sur `+ AJOUTER UN JEU` dans la barre supérieure, sélectionnez le fichier `.exe` et une image de couverture. |
-| **Lancer un jeu** | Cliquez sur le bouton `▶ JOUER` de la carte. Le chronométrage démarre immédiatement. |
-| **Consulter les stats d'un jeu** | Cliquez sur l'icône graphique `📊` à côté du bouton Jouer sur la carte. |
-| **Consulter les stats globales** | Cliquez sur `📊 STATS` dans le menu supérieur pour afficher le comparatif orthogonal et les KPIs combinés. |
-| **Changer de thème** | Cliquez sur l'icône engrenage `⚙` pour choisir entre les modes sombre, clair ou cyberpunk. |
-| **Réduire en tâche de fond** | Cliquez sur la croix `✕` de la fenêtre : Velox continue d'enregistrer votre temps de jeu dans le systray. |
-| **Quitter définitivement** | Cliquez sur l'icône rouge d'extinction `⏻` dans la barre de titre ou via le clic-droit sur l'icône systray. |
-
----
-
-## 👤 Auteur & Contact
-
-* **Auteur** : [Ziad Yousfi](https://github.com/Ziad-Yousfi)
-* **Email** : `yousfiziadpro@gmail.com`
-* **Projet** : [Velox Gaming Launcher](https://github.com/Ziad-Yousfi/Velox)
+| Action | How-To |
+|--------|--------|
+| **Add a game** | Click `+ AJOUTER` in the top bar, choose an `.exe` file and select a cover image. |
+| **Launch a game** | Click `▶ JOUER` on the game card. Playtime recording starts instantly. |
+| **View game stats** | Click the `📊` chart icon next to the Play button on any card. |
+| **View global stats** | Click the `📊` icon in the top header to inspect the orthogonal comparator and KPIs. |
+| **Switch themes** | Click the gear icon `⚙` to choose between dark, light, or cyberpunk modes. |
+| **Minimize to tray** | Click the `✕` close button: Velox stays active in the system tray without losing tracking. |
+| **Exit completely** | Click the red power button `⏻` in the title bar or right-click the tray icon and select exit. |
 
 ---
 
-## 📄 Licence
+## 👤 Author & Contact
 
-Ce projet est sous licence **MIT**. Vous êtes libre de l'utiliser, l'étudier, le modifier et le distribuer.
+* **Author**: [Ziad Yousfi](https://github.com/Ziad-Yousfi)
+* **Email**: `yousfiziadpro@gmail.com`
+* **Repository**: [Velox Gaming Launcher](https://github.com/Ziad-Yousfi/Velox)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. You are free to use, study, modify, and distribute it.
