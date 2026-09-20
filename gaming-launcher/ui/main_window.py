@@ -223,8 +223,8 @@ class MainWindow(QMainWindow):
             logo_img.setObjectName("titleLogoImg")
             pix = QPixmap(str(icon_path))
             if not pix.isNull():
-                logo_img.setPixmap(pix.scaled(38, 38, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
-                logo_img.setFixedSize(38, 38)
+                logo_img.setPixmap(pix.scaled(42, 42, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+                logo_img.setFixedSize(42, 42)
                 logo_layout.addWidget(logo_img)
 
         logo_text = QLabel("VELOX")
