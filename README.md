@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="icon/velox_icon.jpg" alt="Velox Gaming Launcher Logo" width="190" style="border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);" />
+  <img src="gaming-launcher/icon/velox_icon.jpg" alt="Velox Gaming Launcher Logo" width="190" style="border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);" />
   <h1>⚡ VELOX GAMING LAUNCHER</h1>
   <p><strong>Lanceur de jeux ultra-léger, performant et élégant pour Windows avec suivi automatique du temps de jeu et statistiques avancées.</strong></p>
 
@@ -88,30 +88,32 @@ Velox distingue la mise en retrait et l'extinction complète :
 ## 📁 Structure du Projet
 
 ```
-Velox/gaming-launcher/
-├── main.py                       # Point d'entrée, initialisation Qt, polices & icône
-├── requirements.txt              # Dépendances Python (PyQt6, Pillow)
-├── README.md                     # Documentation complète du projet
-├── icon/                         # Identité visuelle officielle
-│   ├── velox_icon.jpg            # Illustration originale haute définition
-│   ├── velox_icon_transparent.png# Emblème détouré (fond transparent pur)
-│   ├── velox.ico                 # Icône Windows multi-résolutions (16px à 256px)
-│   └── velox_transparent.ico     # Icône transparente pour le systray
-├── assets/
-│   ├── fonts/                    # Polices embarquées (Rajdhani)
-│   └── icons/                    # Déclinaisons d'icônes
-├── core/                         # Logique métier & Données
-│   ├── database.py               # Abstraction SQLite avec pool & cache 5s
-│   ├── models.py                 # Modèles de données (Game, Session)
-│   ├── theme.py                  # Système de thèmes dynamiques & palettes
-│   └── tracker.py                # Surveillance et suivi de processus
-└── ui/                           # Interface Utilisateur PyQt6
-    ├── main_window.py            # Fenêtre principale frameless & barre de titre
-    ├── game_card.py              # Carte de jeu individuelle (hover, stats, play)
-    ├── stats_window.py           # Statistiques d'un jeu (graphique 30j + heatmap)
-    ├── global_stats_window.py    # Statistiques globales (repère orthogonal + combinées)
-    ├── add_game_dialog.py        # Dialogue d'ajout / détection de jeux
-    └── edit_game_dialog.py       # Dialogue de modification et suppression
+Velox/
+├── README.md                     # Documentation officielle du projet
+├── .gitignore
+└── gaming-launcher/
+    ├── main.py                   # Point d'entrée, initialisation Qt, polices & icône
+    ├── requirements.txt          # Dépendances Python (PyQt6, Pillow)
+    ├── icon/                     # Identité visuelle officielle
+    │   ├── velox_icon.jpg        # Illustration originale haute définition
+    │   ├── velox_icon_transparent.png# Emblème détouré (fond transparent pur)
+    │   ├── velox.ico             # Icône Windows multi-résolutions (16px à 256px)
+    │   └── velox_transparent.ico # Icône transparente pour le systray
+    ├── assets/
+    │   ├── fonts/                # Polices embarquées (Rajdhani)
+    │   └── icons/                # Déclinaisons d'icônes
+    ├── core/                     # Logique métier & Données
+    │   ├── database.py           # Abstraction SQLite avec pool & cache 5s
+    │   ├── models.py             # Modèles de données (Game, Session)
+    │   ├── theme.py              # Système de thèmes dynamiques & palettes
+    │   └── tracker.py            # Surveillance et suivi de processus
+    └── ui/                       # Interface Utilisateur PyQt6
+        ├── main_window.py        # Fenêtre principale frameless & barre de titre
+        ├── game_card.py          # Carte de jeu individuelle (hover, stats, play)
+        ├── stats_window.py       # Statistiques d'un jeu (graphique 30j + heatmap)
+        ├── global_stats_window.py# Statistiques globales (repère orthogonal + combinées)
+        ├── add_game_dialog.py    # Dialogue d'ajout / détection de jeux
+        └── edit_game_dialog.py   # Dialogue de modification et suppression
 ```
 
 ---
