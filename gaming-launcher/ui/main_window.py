@@ -202,17 +202,17 @@ class MainWindow(QMainWindow):
         """Custom draggable title bar."""
         bar = QFrame()
         bar.setObjectName("titleBar")
-        bar.setFixedHeight(46)
+        bar.setFixedHeight(52)
 
         layout = QHBoxLayout(bar)
         layout.setContentsMargins(18, 0, 12, 0)
-        layout.setSpacing(8)
+        layout.setSpacing(10)
 
-        # Logo with custom transparent emblem
+        # Logo with custom transparent emblem (prominent & crisp)
         logo_container = QWidget()
         logo_layout = QHBoxLayout(logo_container)
         logo_layout.setContentsMargins(0, 0, 0, 0)
-        logo_layout.setSpacing(8)
+        logo_layout.setSpacing(10)
 
         icon_path = Path(__file__).parent.parent / "icon" / "velox_icon_transparent.png"
         if not icon_path.exists():
@@ -223,13 +223,13 @@ class MainWindow(QMainWindow):
             logo_img.setObjectName("titleLogoImg")
             pix = QPixmap(str(icon_path))
             if not pix.isNull():
-                logo_img.setPixmap(pix.scaled(28, 28, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
-                logo_img.setFixedSize(28, 28)
+                logo_img.setPixmap(pix.scaled(38, 38, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+                logo_img.setFixedSize(38, 38)
                 logo_layout.addWidget(logo_img)
 
         logo_text = QLabel("VELOX")
         logo_text.setObjectName("titleLogo")
-        logo_text.setFont(QFont("Segoe UI", 13, QFont.Weight.Bold))
+        logo_text.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
         logo_layout.addWidget(logo_text)
 
         spacer = QWidget()
