@@ -8,6 +8,7 @@ This module handles all database operations with the following optimizations:
 """
 
 import sqlite3
+import sys
 from datetime import datetime
 from typing import List, Optional, Dict, Any
 from pathlib import Path
@@ -25,6 +26,11 @@ class Database:
             if cls._instance is None:
                 cls._instance = super().__new__(cls)
                 cls._instance._initialized = False
+                if db_path == "launcher.db":
+                    if getattr(sys, "frozen", False):
+                        db_path = str(Path(sys.executable).parent / "launcher.db")
+                    else:
+                        db_path = str(Path(__file__).parent.parent / "launcher.db")
                 cls._instance._db_path = db_path
                 cls._instance._conn = None
                 cls._instance._cache = {}

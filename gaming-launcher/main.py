@@ -69,15 +69,22 @@ QApplication.setHighDpiScaleFactorRoundingPolicy(
 _app = QApplication.instance() or QApplication(sys.argv)
 _app.setApplicationName("Velox Gaming Launcher")
 
+def get_resource_path(rel_path: str) -> Path:
+    """Get absolute path to resource, works for dev and for PyInstaller."""
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS) / rel_path
+    return Path(__file__).parent / rel_path
+
 # Set application icon
-_ico_path = Path(__file__).parent / "icon" / "velox.ico"
+_ico_path = get_resource_path("icon/velox.ico")
 if _ico_path.exists():
     _app.setWindowIcon(QIcon(str(_ico_path)))
 
 # Register Rajdhani font family
-_fonts_dir = Path(__file__).parent / "assets" / "fonts"
-for _ttf in _fonts_dir.glob("Rajdhani*.ttf"):
-    QFontDatabase.addApplicationFont(str(_ttf))
+_fonts_dir = get_resource_path("assets/fonts")
+if _fonts_dir.exists():
+    for _ttf in _fonts_dir.glob("Rajdhani*.ttf"):
+        QFontDatabase.addApplicationFont(str(_ttf))
 
 # Set Rajdhani as the application-wide default font
 _app.setFont(QFont("Rajdhani", 10))

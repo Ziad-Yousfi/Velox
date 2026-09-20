@@ -43,6 +43,12 @@ SUCCESS   = "#00FF88"
 DANGER    = "#FF4444"
 # ──────────────────────────────────────────────────────────────────────────────
 
+def get_resource_path(rel_path: str) -> Path:
+    """Get absolute path to resource, works for dev and for PyInstaller."""
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS) / rel_path
+    return Path(__file__).parent.parent / rel_path
+
 
 class MainWindow(QMainWindow):
     """Main launcher window with premium gaming aesthetic."""
@@ -81,7 +87,7 @@ class MainWindow(QMainWindow):
         # Drag support for frameless
         self._drag_pos: QPoint | None = None
 
-        ico_file = Path(__file__).parent.parent / "icon" / "velox.ico"
+        ico_file = get_resource_path("icon/velox.ico")
         if ico_file.exists():
             self.setWindowIcon(QIcon(str(ico_file)))
 
@@ -211,9 +217,9 @@ class MainWindow(QMainWindow):
         logo_layout.setContentsMargins(0, 0, 0, 0)
         logo_layout.setSpacing(10)
 
-        icon_path = Path(__file__).parent.parent / "icon" / "velox_icon_transparent.png"
+        icon_path = get_resource_path("icon/velox_icon_transparent.png")
         if not icon_path.exists():
-            icon_path = Path(__file__).parent.parent / "icon" / "velox_icon_transparent.jpg"
+            icon_path = get_resource_path("icon/velox_icon_transparent.jpg")
 
         if icon_path.exists():
             logo_img = QLabel()
@@ -292,11 +298,11 @@ class MainWindow(QMainWindow):
         """Set up system tray icon and menu."""
         self.tray_icon = QSystemTrayIcon(self)
 
-        tray_ico = Path(__file__).parent.parent / "icon" / "velox_transparent.ico"
+        tray_ico = get_resource_path("icon/velox_transparent.ico")
         if not tray_ico.exists():
-            tray_ico = Path(__file__).parent.parent / "icon" / "velox_icon_transparent.png"
+            tray_ico = get_resource_path("icon/velox_icon_transparent.png")
         if not tray_ico.exists():
-            tray_ico = Path(__file__).parent.parent / "icon" / "velox_icon_transparent.jpg"
+            tray_ico = get_resource_path("icon/velox_icon_transparent.jpg")
 
         if tray_ico.exists():
             self.tray_icon.setIcon(QIcon(str(tray_ico)))
