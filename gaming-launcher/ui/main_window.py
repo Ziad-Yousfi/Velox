@@ -53,8 +53,8 @@ class MainWindow(QMainWindow):
     ACCENT_COLOR  = ACCENT
     TEXT_COLOR    = TEXT
 
-    # Grid columns
-    GRID_COLS = 3
+    # Grid columns (default 4 columns to avoid wasted space on the right)
+    GRID_COLS = 4
 
     def __init__(self):
         super().__init__()
@@ -65,11 +65,12 @@ class MainWindow(QMainWindow):
         self.tracker.start_tracking()
         self.active_sessions: dict[int, int] = {}
         self._is_shutting_down = False
+        self._current_cols = self.GRID_COLS
 
         # Frameless window
         self.setWindowTitle("Velox Gaming Launcher")
-        self.setMinimumSize(980, 640)
-        self.resize(1100, 840)
+        self.setMinimumSize(980, 460)
+        self.resize(1120, 500)
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
             Qt.WindowType.WindowSystemMenuHint |
@@ -97,17 +98,8 @@ class MainWindow(QMainWindow):
 
     # ── Positioning ───────────────────────────────────────────────────────────
     def _center_window(self):
-        """Center the window on the primary screen with optimal dimensions to show 2 rows."""
-        primary = QApplication.primaryScreen()
-        if primary:
-            avail = primary.availableGeometry()
-            target_w = min(1100, avail.width() - 40)
-            target_h = min(840, avail.height() - 40)
-            self.resize(target_w, target_h)
-            self.move(
-                avail.x() + (avail.width()  - target_w) // 2,
-                avail.y() + (avail.height() - target_h) // 2,
-            )
+        """Center the window on the primary screen."""
+        self._adjust_window_size(0)
 
     # ── UI Setup ──────────────────────────────────────────────────────────────
     def _setup_ui(self):
@@ -125,8 +117,8 @@ class MainWindow(QMainWindow):
         content = QFrame()
         content.setObjectName("contentFrame")
         cl = QVBoxLayout(content)
-        cl.setContentsMargins(24, 14, 24, 14)
-        cl.setSpacing(12)
+        cl.setContentsMargins(24, 20, 24, 20)
+        cl.setSpacing(16)
 
         # ── Header ────────────────────────────────────────────────────────────
         header = QHBoxLayout()
@@ -196,7 +188,7 @@ class MainWindow(QMainWindow):
         self.games_container.setObjectName("gamesContainer")
         self.games_layout = QGridLayout(self.games_container)
         self.games_layout.setSpacing(16)
-        self.games_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        self.games_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
         self.scroll_area.setWidget(self.games_container)
         cl.addWidget(self.scroll_area)
@@ -482,6 +474,91 @@ class MainWindow(QMainWindow):
             }}
         """)
 
+    def _get_grid_columns(self) -> int:
+        """Dynamically compute the number of columns to fill available horizontal space."""
+        avail_w = 0
+        if hasattr(self, "scroll_area") and self.isVisible():
+            avail_w = self.scroll_area.viewport().width()
+        if avail_w < 200:
+            avail_w = max(self.width() - 48 - 16, 200)
+
+        spacing = 16
+        card_w = GameCard.CARD_W
+        cols = max(3, (avail_w + spacing) // (card_w + spacing))
+        return cols
+
+    def _adjust_window_size(self, game_count: int = 0):
+        """Intelligently size and center the window according to content."""
+        if self.isMaximized():
+            return
+
+        primary = QApplication.primaryScreen()
+        if not primary:
+            return
+        avail = primary.availableGeometry()
+
+        # Target width 1120 (comfortably fits 4 columns without clipping)
+        target_w = min(1120, avail.width() - 40)
+        
+        spacing = 16
+        card_w = GameCard.CARD_W
+        card_h = GameCard.CARD_H
+
+        inner_w = target_w - 48 - 16
+        cols = max(3, (inner_w + spacing) // (card_w + spacing))
+        self._current_cols = cols
+
+        rows = max(1, (game_count + cols - 1) // cols) if game_count > 0 else 1
+
+        # Calculate exact optimal height:
+        # 1 row: 500px (clean dock-like aesthetic, zero dead space)
+        # 2 rows: 820px (row 2 play buttons 100% visible, zero clipping)
+        # 3+ rows: capped at screen height - 50px with smooth scrolling
+        spacing = 16
+        card_h = GameCard.CARD_H
+        if rows == 1:
+            needed_h = 500
+        elif rows == 2:
+            needed_h = 820
+        else:
+            needed_h = 176 + rows * card_h + (rows - 1) * spacing
+
+        # Cap at screen height - 50px
+        target_h = min(needed_h, avail.height() - 50)
+
+        self.resize(target_w, target_h)
+        self.move(
+            avail.x() + (avail.width()  - target_w) // 2,
+            avail.y() + (avail.height() - target_h) // 2,
+        )
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        cols = self._get_grid_columns()
+        if hasattr(self, "_current_cols") and cols != self._current_cols:
+            self._rearrange_cards(cols)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if hasattr(self, "games_layout") and hasattr(self, "_current_cols"):
+            new_cols = self._get_grid_columns()
+            if new_cols != self._current_cols:
+                self._rearrange_cards(new_cols)
+
+    def _rearrange_cards(self, cols: int):
+        self._current_cols = cols
+        widgets = []
+        for i in range(self.games_layout.count()):
+            item = self.games_layout.itemAt(i)
+            if item and item.widget():
+                widgets.append(item.widget())
+
+        for idx, widget in enumerate(widgets):
+            self.games_layout.removeWidget(widget)
+            row = idx // cols
+            col = idx % cols
+            self.games_layout.addWidget(widget, row, col)
+
     # ── Games list ────────────────────────────────────────────────────────────
     def _refresh_games(self):
         """Refresh the games grid from database."""
@@ -489,9 +566,14 @@ class MainWindow(QMainWindow):
         while self.games_layout.count():
             item = self.games_layout.takeAt(0)
             if item.widget():
-                item.widget().deleteLater()
+                w = item.widget()
+                w.setParent(None)
+                w.deleteLater()
 
         games = self.db.get_all_games()
+        self._adjust_window_size(len(games))
+        cols = self._get_grid_columns()
+        self._current_cols = cols
 
         if not games:
             empty = QLabel(
@@ -500,12 +582,12 @@ class MainWindow(QMainWindow):
             empty.setFont(QFont("Segoe UI", 13))
             empty.setAlignment(Qt.AlignmentFlag.AlignCenter)
             empty.setStyleSheet(f"color: {TEXT_DIM}; padding: 60px;")
-            self.games_layout.addWidget(empty, 0, 0, 1, self.GRID_COLS)
+            self.games_layout.addWidget(empty, 0, 0, 1, cols)
             self.count_badge.hide()
         else:
             for idx, game_data in enumerate(games):
-                row = idx // self.GRID_COLS
-                col = idx % self.GRID_COLS
+                row = idx // cols
+                col = idx % cols
                 card = GameCard(game_data)
                 card.launch_requested.connect(self._launch_game)
                 card.info_requested.connect(self._show_stats)

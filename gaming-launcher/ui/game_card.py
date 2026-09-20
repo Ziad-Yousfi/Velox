@@ -135,9 +135,9 @@ class GameCard(QFrame):
     info_requested   = pyqtSignal(int)
     edit_requested   = pyqtSignal(int)  # game_id
 
-    # Dimensions (optimized so 2 rows are fully visible without scrolling)
-    CARD_W = 250
-    CARD_H = 300
+    # Dimensions (optimized for 4-column responsive grid)
+    CARD_W = 240
+    CARD_H = 310
     COVER_W = 190
     COVER_H = 190
 
