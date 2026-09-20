@@ -135,11 +135,11 @@ class GameCard(QFrame):
     info_requested   = pyqtSignal(int)
     edit_requested   = pyqtSignal(int)  # game_id
 
-    # Dimensions (for a 3-column grid at 1060px window width)
-    CARD_W = 280
-    CARD_H = 370
-    COVER_W = 240
-    COVER_H = 240
+    # Dimensions (optimized so 2 rows are fully visible without scrolling)
+    CARD_W = 250
+    CARD_H = 300
+    COVER_W = 190
+    COVER_H = 190
 
     def __init__(self, game_data: dict, parent=None):
         super().__init__(parent)
@@ -165,8 +165,8 @@ class GameCard(QFrame):
         self.card = QFrame()
         self.card.setObjectName("cardInner")
         card_l = QVBoxLayout(self.card)
-        card_l.setContentsMargins(14, 14, 14, 12)
-        card_l.setSpacing(8)
+        card_l.setContentsMargins(12, 10, 12, 10)
+        card_l.setSpacing(6)
 
         # Game name (positioned above the 1:1 square cover)
         self.name_label = QLabel(self.game_name)

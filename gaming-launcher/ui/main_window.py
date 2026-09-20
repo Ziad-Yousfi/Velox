@@ -68,7 +68,8 @@ class MainWindow(QMainWindow):
 
         # Frameless window
         self.setWindowTitle("Velox Gaming Launcher")
-        self.setMinimumSize(1060, 680)
+        self.setMinimumSize(980, 640)
+        self.resize(1100, 840)
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
             Qt.WindowType.WindowSystemMenuHint |
@@ -96,13 +97,17 @@ class MainWindow(QMainWindow):
 
     # ── Positioning ───────────────────────────────────────────────────────────
     def _center_window(self):
-        """Center the window on the primary screen."""
-        screen = QApplication.primaryScreen().geometry()
-        size   = self.geometry()
-        self.move(
-            (screen.width()  - size.width())  // 2,
-            (screen.height() - size.height()) // 2,
-        )
+        """Center the window on the primary screen with optimal dimensions to show 2 rows."""
+        primary = QApplication.primaryScreen()
+        if primary:
+            avail = primary.availableGeometry()
+            target_w = min(1100, avail.width() - 40)
+            target_h = min(840, avail.height() - 40)
+            self.resize(target_w, target_h)
+            self.move(
+                avail.x() + (avail.width()  - target_w) // 2,
+                avail.y() + (avail.height() - target_h) // 2,
+            )
 
     # ── UI Setup ──────────────────────────────────────────────────────────────
     def _setup_ui(self):
@@ -120,8 +125,8 @@ class MainWindow(QMainWindow):
         content = QFrame()
         content.setObjectName("contentFrame")
         cl = QVBoxLayout(content)
-        cl.setContentsMargins(24, 20, 24, 20)
-        cl.setSpacing(16)
+        cl.setContentsMargins(24, 14, 24, 14)
+        cl.setSpacing(12)
 
         # ── Header ────────────────────────────────────────────────────────────
         header = QHBoxLayout()
