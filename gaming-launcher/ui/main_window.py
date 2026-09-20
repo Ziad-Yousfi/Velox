@@ -128,20 +128,12 @@ class MainWindow(QMainWindow):
 
         # ── Header ────────────────────────────────────────────────────────────
         header = QHBoxLayout()
-
-        title_col = QVBoxLayout()
-        title_col.setSpacing(2)
-
-        title_lbl = QLabel("VELOX LAUNCHER")
-        title_lbl.setObjectName("mainTitle")
-        title_lbl.setFont(QFont("Segoe UI", 22, QFont.Weight.Bold))
+        header.setSpacing(12)
 
         sub_lbl = QLabel("Bibliothèque de jeux")
-        sub_lbl.setFont(QFont("Segoe UI", 10))
-        sub_lbl.setStyleSheet(f"color: {TEXT_DIM};")
-
-        title_col.addWidget(title_lbl)
-        title_col.addWidget(sub_lbl)
+        sub_lbl.setObjectName("subTitle")
+        sub_lbl.setFont(QFont("Segoe UI", 13, QFont.Weight.Bold))
+        sub_lbl.setStyleSheet(f"color: {TEXT};")
 
         # Game count badge (updated after load)
         self.count_badge = QLabel("")
@@ -151,8 +143,8 @@ class MainWindow(QMainWindow):
         self.count_badge.setFixedHeight(24)
         self.count_badge.hide()
 
-        header.addLayout(title_col)
-        header.addWidget(self.count_badge, alignment=Qt.AlignmentFlag.AlignBottom)
+        header.addWidget(sub_lbl, alignment=Qt.AlignmentFlag.AlignVCenter)
+        header.addWidget(self.count_badge, alignment=Qt.AlignmentFlag.AlignVCenter)
         header.addStretch()
 
         self.add_btn = QPushButton("＋  AJOUTER")
@@ -410,8 +402,6 @@ class MainWindow(QMainWindow):
                 color: {TEXT_DIM};
                 border-radius: 10px;
                 padding: 0 10px;
-                margin-bottom: 4px;
-                margin-left: 8px;
             }}
 
             #separator {{
