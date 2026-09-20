@@ -229,12 +229,17 @@ class Database:
         self._invalidate_cache(f"games:{game_id}")
         self._invalidate_cache("all_games")
 
-    def update_game(self, game_id: int, name: str, cover_image_path: Optional[str] = None):
-        """Update name and cover image path for a game."""
+    def update_game(self, game_id: int, name: str, cover_image_path: Optional[str] = None, exe_path: Optional[str] = None):
+        """Update name, cover image path, and optionally exe path for a game."""
         cursor = self.conn.cursor()
-        cursor.execute("""
-            UPDATE games SET name = ?, cover_image_path = ? WHERE id = ?
-        """, (name, cover_image_path, game_id))
+        if exe_path is not None:
+            cursor.execute("""
+                UPDATE games SET name = ?, cover_image_path = ?, exe_path = ? WHERE id = ?
+            """, (name, cover_image_path, exe_path, game_id))
+        else:
+            cursor.execute("""
+                UPDATE games SET name = ?, cover_image_path = ? WHERE id = ?
+            """, (name, cover_image_path, game_id))
         self.conn.commit()
         self._invalidate_cache(f"games:{game_id}")
         self._invalidate_cache("all_games")

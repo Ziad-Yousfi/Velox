@@ -639,9 +639,14 @@ class MainWindow(QMainWindow):
         if not game_data:
             return
 
-        exe_path = game_data["exe_path"]
+        exe_path = game_data["exe_path"].strip('\"\'')
         if not os.path.exists(exe_path):
-            print(f"Executable not found: {exe_path}")
+            from PyQt6.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self, "Fichier introuvable",
+                f"L'exécutable du jeu est introuvable :\n{exe_path}\n\n"
+                f"Vérifiez que le fichier existe ou modifiez son chemin via les paramètres (⚙) du jeu."
+            )
             return
 
         session_id = self.db.start_session(game_id)
@@ -653,6 +658,15 @@ class MainWindow(QMainWindow):
         else:
             self.db.end_session(session_id)
             del self.active_sessions[game_id]
+            from PyQt6.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self, "Échec du lancement",
+                f"Impossible de lancer « {game_data['name']} ».\n\n"
+                f"Raisons possibles :\n"
+                f"• L'autorisation administrateur (UAC) a été annulée ou refusée\n"
+                f"• L'exécutable a été bloqué par Windows Defender ou votre antivirus\n"
+                f"• Des fichiers ou dépendances (.dll) du jeu sont manquants."
+            )
 
     def _on_session_end(self, game_id: int, pid: int):
         """Called when a tracked game process ends."""
@@ -697,7 +711,8 @@ class MainWindow(QMainWindow):
                 self.db.update_game(
                     game_id=game_id,
                     name=updated["name"],
-                    cover_image_path=updated["cover_image_path"]
+                    cover_image_path=updated["cover_image_path"],
+                    exe_path=updated.get("exe_path")
                 )
                 self._refresh_games()
 

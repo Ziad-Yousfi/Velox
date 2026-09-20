@@ -161,7 +161,35 @@ class EditGameDialog(QDialog):
         name_group.addWidget(self.name_input)
         body_l.addLayout(name_group)
 
-        # ── 2. Pochette carrée (Format 1:1) ───────────────────────────────────
+        # ── 2. Exécutable du jeu ──────────────────────────────────────────────
+        exe_group = QVBoxLayout()
+        exe_group.setSpacing(6)
+
+        exe_hdr = QLabel("Exécutable du jeu (.exe, .lnk)")
+        exe_hdr.setFont(QFont("Rajdhani", 10, QFont.Weight.Bold))
+        exe_hdr.setStyleSheet(f"color: {TEXT_DIM};")
+
+        exe_row = QHBoxLayout()
+        exe_row.setSpacing(8)
+
+        self.exe_input = QLineEdit(self.exe_path)
+        self.exe_input.setFont(QFont("Segoe UI", 9))
+        self.exe_input.setObjectName("formInput")
+        self.exe_input.setPlaceholderText("Chemin vers l'exécutable (.exe)...")
+
+        self.browse_exe_btn = QPushButton("📁  Parcourir...")
+        self.browse_exe_btn.setObjectName("outlineBtn")
+        self.browse_exe_btn.setFixedHeight(34)
+        self.browse_exe_btn.clicked.connect(self._browse_exe)
+
+        exe_row.addWidget(self.exe_input)
+        exe_row.addWidget(self.browse_exe_btn)
+
+        exe_group.addWidget(exe_hdr)
+        exe_group.addLayout(exe_row)
+        body_l.addLayout(exe_group)
+
+        # ── 3. Pochette carrée (Format 1:1) ───────────────────────────────────
         cover_group = QVBoxLayout()
         cover_group.setSpacing(8)
 
@@ -207,7 +235,7 @@ class EditGameDialog(QDialog):
         cover_group.addLayout(cover_row)
         body_l.addLayout(cover_group)
 
-        # ── 3. Zone de danger (Suppression) ───────────────────────────────────
+        # ── 4. Zone de danger (Suppression) ───────────────────────────────────
         danger_box = QFrame()
         danger_box.setObjectName("dangerBox")
         danger_l = QHBoxLayout(danger_box)
@@ -302,6 +330,24 @@ class EditGameDialog(QDialog):
         if path:
             self.current_cover = path
             self._update_preview()
+
+    def _browse_exe(self):
+        """Open file dialog to pick a new game executable."""
+        start_dir = ""
+        current_text = self.exe_input.text().strip().strip('"\'')
+        if current_text and Path(current_text).exists():
+            start_dir = str(Path(current_text).parent)
+        elif self.exe_path and Path(self.exe_path).exists():
+            start_dir = str(Path(self.exe_path).parent)
+
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Sélectionner l'exécutable du jeu",
+            start_dir,
+            "Exécutables (*.exe *.lnk *.bat *.cmd);;Tous les fichiers (*)"
+        )
+        if path:
+            self.exe_input.setText(path)
 
     def _reset_image(self):
         """Reset cover to None (will show initials placeholder)."""
@@ -399,6 +445,7 @@ class EditGameDialog(QDialog):
             """)
             return
         self.current_name = new_name
+        self.current_exe = self.exe_input.text().strip().strip('"\'')
         self.accept()
 
     # ── Public Result Accessors ───────────────────────────────────────────────
@@ -409,6 +456,7 @@ class EditGameDialog(QDialog):
         return {
             "name": self.current_name,
             "cover_image_path": self.current_cover,
+            "exe_path": getattr(self, "current_exe", self.exe_path),
         }
 
     # ── Styling ───────────────────────────────────────────────────────────────
